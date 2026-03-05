@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": null,
+  "categories": [
+    {
+      "id": "preferences",
+      "name": "Personal Preferences",
+      "file": "preferences.md",
+      "keywords": ["preference", "style", "format", "naming", "convention"],
+      "aliases": ["habit", "standard", "rule"],
+      "weight": 3,
+      "hitCount": 0,
+      "lastAccessed": null,
+      "entryCount": 0,
+      "_embedding": null
+    },
+    {
+      "id": "troubleshooting",
+      "name": "Cross-Project Troubleshooting",
+      "file": "troubleshooting.md",
+      "keywords": ["error", "fix", "bug", "workaround", "solution"],
+      "aliases": ["issue", "problem", "debug", "resolve"],
+      "weight": 3,
+      "hitCount": 0,
+      "lastAccessed": null,
+      "entryCount": 0,
+      "_embedding": null
+    },
+    {
+      "id": "toolchain",
+      "name": "Toolchain Experience",
+      "file": "toolchain.md",
+      "keywords": ["CLI", "IDE", "CI/CD", "deployment", "toolchain"],
+      "aliases": ["devops", "pipeline", "build", "deploy"],
+      "weight": 3,
+      "hitCount": 0,
+      "lastAccessed": null,
+      "entryCount": 0,
+      "_embedding": null
+    }
+  ]
+}
