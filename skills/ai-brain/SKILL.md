@@ -60,14 +60,16 @@ BRAIN_ROOT="$(dirname "$PWD")/ai-brain"
 
 New projects: copy templates from `$BRAIN_ROOT/_example/`.
 
-### Common Brain — Tiered
+### Common Brain
 
-| Tier | Files | Strategy |
-|------|-------|----------|
-| Tier 2 | `skill-experience.md` | Path listed at load; read when needed |
-| Tier 3 | `preferences.md`, `troubleshooting.md`, `toolchain.md` | Path listed at load; read on demand |
+| File | Purpose |
+| --- | --- |
+| `preferences.md` | Personal preferences: naming, formatting, tool choices |
+| `troubleshooting.md` | Cross-project solutions to recurring problems |
+| `toolchain.md` | CLI, IDE, CI/CD, deployment notes |
+| `skill-experience.md` | Skill tuning and pitfall log |
 
-Skill-owned files (not tiered): `conversation-patterns.md` (conversation-logger), `prompt-violations.md` (prompt-engineer).
+Skill-owned files: `conversation-patterns.md` (conversation-logger), `prompt-violations.md` (prompt-engineer).
 
 ## Loading Procedure
 
@@ -75,12 +77,26 @@ Execute on the first message of every conversation. Skip only if user says "skip
 
 ### Hook path (Claude Code)
 
-If `=== AI BRAIN ===` marker is present in context, the SessionStart hook has already injected:
-- **Tier 1 (MUST READ):** `architecture_decisions.md` + `known_issues.md` full text — already in context.
-- **Tier 2 (AVAILABLE):** `todo.md`, `journal.md`, `skill-experience.md` paths listed.
-- **Tier 3 (ON DEMAND):** `_common/` file paths listed.
+If `=== AI BRAIN ===` marker is present in context, the SessionStart hook has injected a **Brain Map** — file paths, descriptions, and entry counts (~20 lines). No full file contents are in context yet.
 
-No additional tool calls needed. The PreToolUse lock forces a text response before any tool use.
+**Steps:**
+
+1. **Read user message** — Determine which Brain files are relevant to the task.
+   - `architecture_decisions.md` is ALWAYS relevant for code/design tasks.
+   - `known_issues.md` is ALWAYS relevant for code/debug tasks.
+   - Other files: match by task type (planning → `todo.md`, resuming → `journal.md`, etc.)
+2. **Check entry count** — Sum entries of all relevant files (from the Brain Map).
+   - **< 15 total entries →** Read the relevant files directly (cat / Read tool).
+   - **≥ 15 total entries →** Launch ONE Explore sub-agent to read and distill:
+     ```
+     Explore agent prompt template:
+     "Read these Brain files: [list paths]. For the user's task: '[first message summary]',
+     extract ONLY the entries relevant to this task. Return a concise summary organized by file.
+     Skip entries that are clearly unrelated."
+     ```
+3. **Respond to user** — The PreToolUse lock forces a text response before any tool use. Answer the user's question or acknowledge their task.
+
+**Caching:** Do not re-read Brain files already loaded in the same conversation. Re-run only on topic switch.
 
 ### Manual path (Codex / Gemini CLI / other)
 
@@ -88,15 +104,16 @@ If no `=== AI BRAIN ===` marker is present:
 
 1. **Derive paths** — Set `PROJECT_NAME` and `BRAIN_ROOT` per Paths section.
 2. **Verify Brain Root** — `ls "$BRAIN_ROOT"`. Missing → ask user for location.
-3. **Read Tier 1** — Read `architecture_decisions.md` + `known_issues.md`. Missing project dir → create from `$BRAIN_ROOT/_example/` templates, notify user.
-4. **Note Tier 2 paths** — Remember paths to `todo.md`, `journal.md`, `skill-experience.md`. Do not read yet.
-5. **Note Tier 3 paths** — Remember paths to `_common/` files (excluding `SCHEMA.md`). Do not read yet.
-6. **Respond to user** — Answer the user's message before any other tool use.
+3. **List project Brain** — `ls "$BRAIN_ROOT/$PROJECT_NAME/"`. Missing → create from `$BRAIN_ROOT/_example/` templates, notify user.
+4. **Read by relevance** — Based on user message, read the relevant Brain files:
+   - Small files (≤ 40 entries) → read fully.
+   - Large files (> 40 entries) → read only headers/titles, then read specific sections as needed.
+5. **Respond to user** — Answer the user's message before any other tool use.
 
 ### Lazy rules (shared by both paths)
 
 - **Project mapping** (`ls`, read key files) → defer until first Edit/Write on project files.
-- **Tier 2/3 files** → read only when the current task needs them.
+- **Non-selected files** → read only when the current task needs them.
 - **Constraints** — `architecture_decisions.md` = absolute truth. Project Brain wins over Common Brain on conflicts.
 
 ## Write-Back
