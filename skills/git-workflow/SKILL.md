@@ -18,12 +18,14 @@ Every commit message MUST follow the Conventional Commits specification.
 ### Format
 
 ```
-<type>(<scope>): <subject>
+<type>: <subject>
 
 [optional body]
 
 [optional footer(s)]
 ```
+
+- **Do NOT use scope.** Write `feat: add login` not `feat(auth): add login`.
 
 ### Types
 
