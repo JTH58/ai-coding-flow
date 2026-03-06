@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "command": "~/.gemini/scripts/brain-loader.sh"
+      }
+    ],
+    "BeforeTool": [
+      {
+        "command": "~/.gemini/scripts/brain-gate.sh"
+      }
+    ]
+  }
+}

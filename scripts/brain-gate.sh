@@ -4,7 +4,7 @@
 # Claude Code exclusive — non-Claude-Code environments rely on prompt-level instructions.
 
 PROJECT_NAME=$(basename "$PWD")
-LOCK="/tmp/claude-brain-lock-${PROJECT_NAME}"
+LOCK="/tmp/ai-brain-lock-${PROJECT_NAME}"
 
 if [[ -f "$LOCK" ]]; then
   rm "$LOCK"

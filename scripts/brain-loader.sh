@@ -119,7 +119,7 @@ echo ""
 echo "=== END AI BRAIN ==="
 
 # Create lock file — brain-gate.sh will block the first tool call
-touch "/tmp/claude-brain-lock-${PROJECT_NAME}"
+touch "/tmp/ai-brain-lock-${PROJECT_NAME}"
 
 # Debug trace (persistent) — verify loader actually ran
 echo "$(date '+%Y-%m-%d %H:%M:%S') brain-loader: $PROJECT_NAME (map mode)" >> "/tmp/claude-brain-debug.log"

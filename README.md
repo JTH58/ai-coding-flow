@@ -85,11 +85,16 @@ ai-coding-flow/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── setup.sh                        ← One-time installer (symlinks + hooks → ~/.claude/)
+├── setup.sh                        ← Multi-tool installer (Claude / Gemini / Codex)
 ├── system-prompt-v5.md              ← Core system prompt (orchestrator)
+├── claude/
+│   └── settings.json                ← Claude Code hook template (3 hooks)
+├── gemini/
+│   └── settings.json                ← Gemini CLI hook template (2 hooks)
 ├── scripts/
 │   ├── brain-loader.sh              ← SessionStart hook (Brain Map injection)
-│   └── brain-gate.sh                ← PreToolUse hook (forces text response before tools)
+│   ├── brain-gate.sh                ← PreToolUse hook (forces text response before tools)
+│   └── no-coauthor-guard.sh         ← PreToolUse hook (blocks Co-Authored-By in commits)
 ├── _common/                         ← Common Brain templates
 │   ├── _catalog.json                ← Category index (auto-managed by AI)
 │   ├── SCHEMA.md                    ← Data structure reference
@@ -168,27 +173,36 @@ Your directory structure should look like:
 
 #### 3. Apply to your AI tool
 
-<details>
-<summary><b>Claude Code (recommended — full Skill support)</b></summary>
-
-Claude Code natively supports the modular Skill architecture via `CLAUDE.md` + custom Skills.
-
-**Install (one-time):**
+Run the unified installer and select your tool:
 
 ```bash
 cd ~/Documents/Github/ai-coding-flow
 ./setup.sh
 ```
 
-This creates symlinks from `~/.claude/` to the project files and registers two hooks: `SessionStart` (auto-loads Brain) and `PreToolUse` (ensures the AI responds before using tools). Edits to project files take effect immediately — no manual sync needed.
+The installer supports **Claude Code**, **Gemini CLI**, and **OpenAI Codex**. You can set up one tool or all three at once.
+
+<details>
+<summary><b>Claude Code (recommended — full Skill support)</b></summary>
+
+Claude Code natively supports the modular Skill architecture via `CLAUDE.md` + custom Skills.
+
+**What `setup.sh` does (option 1):**
+- Symlinks all Skills to `~/.claude/skills/`
+- Symlinks `system-prompt-v5.md` to `~/.claude/CLAUDE.md`
+- Symlinks all scripts to `~/.claude/scripts/`
+- Merges hooks into `~/.claude/settings.json` (idempotent)
+
+Edits to project files take effect immediately — no manual sync needed.
 
 > Claude Code reads `CLAUDE.md` hierarchically: global (`~/.claude/CLAUDE.md`) applies everywhere, project-level (`.claude/CLAUDE.md`) adds project-specific context. Skills in `~/.claude/skills/` are available globally.
 
 **What the hooks do:**
 - **`brain-loader.sh` (SessionStart)** — Injects a **Brain Map** (~20 lines): file paths, descriptions, and entry counts. No full file contents are injected. The AI reads the user's message, selects relevant files, and reads them on demand (directly if < 15 entries, via Explore sub-agent if ≥ 15). The `=== AI BRAIN ===` marker tells the AI to skip manual loading.
 - **`brain-gate.sh` (PreToolUse)** — Blocks the first tool call after Brain loading, forcing the AI to produce a text response first. This prevents the AI from silently jumping into code changes before acknowledging context. Subsequent tool calls pass through normally.
+- **`no-coauthor-guard.sh` (PreToolUse:Bash)** — Blocks `git commit` commands that contain `Co-Authored-By` trailers, enforcing the git-workflow Skill rule.
 
-If no Brain repo exists next to your project, both hooks silently do nothing.
+If no Brain repo exists next to your project, the Brain hooks silently do nothing.
 
 **Updating:** When the framework releases a new version, just pull — symlinks pick up changes automatically:
 
@@ -201,50 +215,41 @@ cd ~/Documents/Github/ai-coding-flow && git pull
 <details>
 <summary><b>Gemini CLI</b></summary>
 
-Gemini CLI doesn't have a native Skill system. Use the system prompt as your base — it provides the core identity, response principles, and skill loading references.
+**What `setup.sh` does (option 2):**
+- Generates a bundled prompt at `~/.gemini/GEMINI.md` (system-prompt + essential Skills)
+- Symlinks `brain-loader.sh` and `brain-gate.sh` to `~/.gemini/scripts/`
+- Merges hooks into `~/.gemini/settings.json`
 
-**Option A: Per-project (recommended)**
+The bundled prompt includes `response-protocol` + `ai-brain` + `code-verification` — the recommended minimum for structured AI behavior.
+
+> **Note:** Gemini CLI hook format may differ from the template. Test with `gemini` and adjust `~/.gemini/settings.json` if needed.
+
+**Manual alternative (per-project):**
 
 ```bash
 mkdir -p .gemini
 cp ~/Documents/Github/ai-coding-flow/system-prompt-v5.md .gemini/system.md
-echo 'GEMINI_SYSTEM_MD=1' >> .gemini/.env
 ```
 
-**Option B: Global environment variable**
-
-```bash
-# Add to ~/.zshrc or ~/.bashrc
-export GEMINI_SYSTEM_MD="$HOME/Documents/Github/ai-coding-flow/system-prompt-v5.md"
-source ~/.zshrc
-```
-
-> **Note:** For full Skill functionality, you can append relevant Skill contents to the system prompt file. The Skills are plain Markdown — concatenate as needed.
->
-> **Recommended minimum bundle:** `response-protocol` + `ai-brain` + `code-verification`
+> For full Skill functionality, append relevant `skills/*/SKILL.md` contents to the prompt file.
 
 </details>
 
 <details>
 <summary><b>OpenAI Codex</b></summary>
 
-Codex uses `AGENTS.md` for custom instructions.
+**What `setup.sh` does (option 3):**
+- Generates a bundled prompt at `~/.codex/AGENTS.md` (system-prompt + essential Skills)
 
-**Option A: Global**
+Codex has no lifecycle hooks, so Brain loading relies on prompt-level instructions (the `ai-brain` Skill's manual path).
 
-```bash
-cp ~/Documents/Github/ai-coding-flow/system-prompt-v5.md ~/.codex/AGENTS.md
-```
-
-**Option B: Per-project**
+**Manual alternative (per-project):**
 
 ```bash
 cp ~/Documents/Github/ai-coding-flow/system-prompt-v5.md AGENTS.md
 ```
 
-> Like Gemini CLI, Codex doesn't natively support Skills. Append relevant Skill contents to `AGENTS.md` as needed.
->
-> **Recommended minimum bundle:** `response-protocol` + `ai-brain` + `code-verification`
+> For full Skill functionality, append relevant `skills/*/SKILL.md` contents to `AGENTS.md`.
 
 </details>
 
@@ -467,11 +472,16 @@ ai-coding-flow/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── setup.sh                        ← 一次性安裝腳本（symlink + hooks → ~/.claude/）
+├── setup.sh                        ← 多工具安裝腳本（Claude / Gemini / Codex）
 ├── system-prompt-v5.md              ← 核心系統提示詞（協調者）
+├── claude/
+│   └── settings.json                ← Claude Code hook 模板（3 個 hook）
+├── gemini/
+│   └── settings.json                ← Gemini CLI hook 模板（2 個 hook）
 ├── scripts/
 │   ├── brain-loader.sh              ← SessionStart hook（Brain Map 注入到 context）
-│   └── brain-gate.sh                ← PreToolUse hook（強制先回應再用工具）
+│   ├── brain-gate.sh                ← PreToolUse hook（強制先回應再用工具）
+│   └── no-coauthor-guard.sh         ← PreToolUse hook（攔截 Co-Authored-By 提交）
 ├── _common/                         ← Common Brain 模板
 │   ├── _catalog.json                ← 分類索引（AI 自動管理）
 │   ├── SCHEMA.md                    ← 資料結構參考
@@ -550,27 +560,36 @@ git add -A && git commit -m "init: AI Brain"
 
 #### 3. 套用到你的 AI 工具
 
-<details>
-<summary><b>Claude Code（推薦 — 完整 Skill 支援）</b></summary>
-
-Claude Code 透過 `CLAUDE.md` + 自訂 Skills 原生支援模組化 Skill 架構。
-
-**安裝（一次性）：**
+執行統一安裝腳本並選擇你的工具：
 
 ```bash
 cd ~/Documents/Github/ai-coding-flow
 ./setup.sh
 ```
 
-這會從 `~/.claude/` 建立 symlink 指向專案檔案，並註冊兩個 hook：`SessionStart`（自動載入 Brain）和 `PreToolUse`（確保 AI 先回應再使用工具）。編輯專案檔後立即生效，不需手動同步。
+安裝腳本支援 **Claude Code**、**Gemini CLI** 和 **OpenAI Codex**。你可以一次設定一個工具或全部一起。
+
+<details>
+<summary><b>Claude Code（推薦 — 完整 Skill 支援）</b></summary>
+
+Claude Code 透過 `CLAUDE.md` + 自訂 Skills 原生支援模組化 Skill 架構。
+
+**`setup.sh` 做了什麼（選項 1）：**
+- 將所有 Skills symlink 到 `~/.claude/skills/`
+- 將 `system-prompt-v5.md` symlink 到 `~/.claude/CLAUDE.md`
+- 將所有腳本 symlink 到 `~/.claude/scripts/`
+- 將 hooks 合併到 `~/.claude/settings.json`（冪等操作）
+
+編輯專案檔後立即生效，不需手動同步。
 
 > Claude Code 階層式讀取 `CLAUDE.md`：全域（`~/.claude/CLAUDE.md`）適用所有專案，專案級（`.claude/CLAUDE.md`）添加專案上下文。`~/.claude/skills/` 中的 Skills 全域可用。
 
 **Hook 做了什麼：**
 - **`brain-loader.sh`（SessionStart）** — 注入 **Brain Map**（約 20 行）：檔案路徑、描述、條目數。不注入完整檔案內容。AI 讀取使用者訊息後選擇相關檔案按需讀取（< 15 條直接讀、≥ 15 條派 Explore sub-agent 蒸餾）。`=== AI BRAIN ===` 標記告訴 AI 跳過手動載入。
 - **`brain-gate.sh`（PreToolUse）** — 在 Brain 載入後攔截第一個 tool call，強制 AI 先產生文字回應。這可防止 AI 在未確認 context 的情況下直接跳入修改程式碼。後續 tool call 正常放行。
+- **`no-coauthor-guard.sh`（PreToolUse:Bash）** — 攔截含有 `Co-Authored-By` 的 `git commit` 命令，強制遵守 git-workflow Skill 規則。
 
-若專案旁邊沒有 Brain repo，兩個 hook 都靜默不做任何事。
+若專案旁邊沒有 Brain repo，Brain hook 靜默不做任何事。
 
 **更新：** 框架發布新版本時，拉取即可 — symlink 會自動反映變更：
 
@@ -583,50 +602,41 @@ cd ~/Documents/Github/ai-coding-flow && git pull
 <details>
 <summary><b>Gemini CLI</b></summary>
 
-Gemini CLI 沒有原生 Skill 系統。使用系統提示詞作為基礎 — 它提供核心身份、回應原則和 Skill 載入參考。
+**`setup.sh` 做了什麼（選項 2）：**
+- 在 `~/.gemini/GEMINI.md` 生成打包提示詞（系統提示詞 + 必要 Skills）
+- 將 `brain-loader.sh` 和 `brain-gate.sh` symlink 到 `~/.gemini/scripts/`
+- 將 hooks 合併到 `~/.gemini/settings.json`
 
-**方式 A：單一專案（推薦）**
+打包的提示詞包含 `response-protocol` + `ai-brain` + `code-verification` — 結構化 AI 行為的建議最小組合。
+
+> **備註：** Gemini CLI 的 hook 格式可能與模板不同。使用 `gemini` 測試後視需要調整 `~/.gemini/settings.json`。
+
+**手動替代方案（單一專案）：**
 
 ```bash
 mkdir -p .gemini
 cp ~/Documents/Github/ai-coding-flow/system-prompt-v5.md .gemini/system.md
-echo 'GEMINI_SYSTEM_MD=1' >> .gemini/.env
 ```
 
-**方式 B：全域環境變數**
-
-```bash
-# 加到 ~/.zshrc 或 ~/.bashrc
-export GEMINI_SYSTEM_MD="$HOME/Documents/Github/ai-coding-flow/system-prompt-v5.md"
-source ~/.zshrc
-```
-
-> **備註：** 如需完整 Skill 功能，可將相關 Skill 內容附加到系統提示詞檔案中。Skills 都是純 Markdown — 視需要串接即可。
->
-> **建議最小組合：** `response-protocol` + `ai-brain` + `code-verification`
+> 如需完整 Skill 功能，將相關 `skills/*/SKILL.md` 內容附加到提示詞檔案。
 
 </details>
 
 <details>
 <summary><b>OpenAI Codex</b></summary>
 
-Codex 透過 `AGENTS.md` 載入自訂指令。
+**`setup.sh` 做了什麼（選項 3）：**
+- 在 `~/.codex/AGENTS.md` 生成打包提示詞（系統提示詞 + 必要 Skills）
 
-**方式 A：全域**
+Codex 沒有生命週期 hook，Brain 載入依賴提示詞層級的指令（`ai-brain` Skill 的手動路徑）。
 
-```bash
-cp ~/Documents/Github/ai-coding-flow/system-prompt-v5.md ~/.codex/AGENTS.md
-```
-
-**方式 B：單一專案**
+**手動替代方案（單一專案）：**
 
 ```bash
 cp ~/Documents/Github/ai-coding-flow/system-prompt-v5.md AGENTS.md
 ```
 
-> 與 Gemini CLI 相同，Codex 不原生支援 Skills。視需要將相關 Skill 內容附加到 `AGENTS.md` 中。
->
-> **建議最小組合：** `response-protocol` + `ai-brain` + `code-verification`
+> 如需完整 Skill 功能，將相關 `skills/*/SKILL.md` 內容附加到 `AGENTS.md`。
 
 </details>
 
