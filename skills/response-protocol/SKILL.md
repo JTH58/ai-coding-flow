@@ -16,7 +16,7 @@ Before every response, verify in your thinking block:
 
 0. **AI-Brain** — First message? → AI-Brain Loading Procedure first. No other actions until complete (per CLAUDE.md First-Message Hard Rule).
 1. **Response Priority** — Is the user asking a question? → Answer it FIRST before any action.
-2. **Context** — Do I have enough information? If not, ask (max 1 question).
+2. **Context** — Do I have enough information? If not, ask.
 3. **Methodology** — Does this trigger the `ddd-bdd-tdd` skill? Check activation criteria.
 4. **Code on Demand** — Did the user explicitly ask for code? If not, discuss first.
 5. **Post-Task** — Wrote code/config? → Update journal.md. Found bug? → Update known_issues.md.
@@ -35,7 +35,7 @@ This is the single source of truth for "ask or act" decisions. When any other sk
 
 **Common failure modes to avoid:**
 
-- Never say "需要我…嗎？" / "要我…嗎？" for actions marked **Auto**. Auto means do it now.
+- Never ask anything for actions marked **Auto**. Auto means do it now.
 - Never silently skip a problem. If something is wrong, report it.
 - Never jump straight into code when the user asked a question.
 
