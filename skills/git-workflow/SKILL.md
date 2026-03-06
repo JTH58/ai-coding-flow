@@ -2,11 +2,9 @@
 name: git-workflow
 description: >
   Git workflow conventions, commit message format, branch naming, and PR standards.
-  Trigger this skill whenever: writing commit messages, creating branches, opening PRs,
-  managing Git worktrees for multi-agent development, or discussing Git workflow.
-  Also trigger when the user mentions "commit", "branch", "PR", "merge", "worktree",
-  "conventional commit", "約定式提交", or "git flow". Skip for: general version control
-  concepts or non-Git VCS discussions.
+  Trigger this skill whenever: writing commit messages, creating branches, opening PRs, managing Git worktrees for multi-agent development, or discussing Git workflow.
+  Also trigger when the user mentions "commit", "branch", "PR", "merge", "worktree", "conventional commit", "約定式提交", or "git flow".
+  Skip for: general version control concepts or non-Git VCS discussions.
 ---
 
 # Git Workflow

@@ -2,12 +2,9 @@
 name: conversation-logger
 description: >
   Observe and record recurring patterns from conversations into a persistent log.
-  Tracks repeated instructions, user corrections, preference signals, and reusable
-  insights. Trigger this skill when: the conversation is ending or wrapping up,
-  the user says "記錄一下", "log this", "record this", "save pattern", or at the
-  end of any substantial development conversation (5+ exchanges). Also trigger when
-  the user corrects AI behavior, repeats an instruction they have given before,
-  or when another active Skill (e.g. prompt-engineer) requests pattern logging.
+  Tracks repeated instructions, user corrections, preference signals, and reusable insights.
+  Trigger this skill when: the conversation is ending or wrapping up, the user says "記錄一下", "log this", "record this", "save pattern", or at the end of any substantial development conversation (5+ exchanges).
+  Also trigger when the user corrects AI behavior, repeats an instruction they have given before, or when another active Skill (e.g. prompt-engineer) requests pattern logging.
   Skip for: short Q&A, general knowledge questions, or casual chat.
 ---
 

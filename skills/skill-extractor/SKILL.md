@@ -1,13 +1,11 @@
 ---
 name: skill-extractor
 description: >
-  Analyze accumulated conversation patterns and extract Skill candidates. Reads the
-  conversation-patterns.md log, clusters similar entries, evaluates frequency and value,
-  and generates draft SKILL.md files for user review. Trigger this skill when: the user
-  says "分析模式", "analyze patterns", "extract skills", "what skills should I make",
-  "該做什麼 Skill", or requests a periodic review of accumulated patterns. Also trigger
-  when conversation-patterns.md has 15+ unanalyzed entries. Skip for: creating a specific
-  known skill (create SKILL.md manually instead), or general conversation.
+  Analyze accumulated conversation patterns and extract Skill candidates.
+  Reads the conversation-patterns.md log, clusters similar entries, evaluates frequency and value, and generates draft SKILL.md files for user review.
+  Trigger this skill when: the user says "分析模式", "analyze patterns", "extract skills", "what skills should I make", "該做什麼 Skill", or requests a periodic review of accumulated patterns.
+  Also trigger when conversation-patterns.md has 15+ unanalyzed entries.
+  Skip for: creating a specific known skill (create SKILL.md manually instead), or general conversation.
 ---
 
 # Skill Extractor

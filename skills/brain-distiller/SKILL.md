@@ -2,8 +2,7 @@
 name: brain-distiller
 description: >
   Distill bloated AI-Brain files by clustering, merging, and archiving stale entries.
-  Trigger when: user says "distill", "蒸餾", "整理 AI-Brain", "clean up brain",
-  "/distill", or when the AI-Brain Map health check shows ⚠️ warnings (> 40 entries).
+  Trigger when: user says "distill", "蒸餾", "整理 AI-Brain", "clean up brain", "/distill", or when the AI-Brain Map health check shows ⚠️ warnings (> 40 entries).
   Also suggest proactively when a AI-Brain file exceeds 40 entries during normal work.
   Skip for: routine AI-Brain read/write, small files, general conversation.
 ---

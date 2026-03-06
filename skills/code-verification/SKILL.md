@@ -1,9 +1,9 @@
 ---
 name: code-verification
 description: >
-  Code quality verification loop and response ending stamps. Trigger this skill whenever
-  Claude writes, modifies, or reviews code. This includes: implementing features, fixing
-  bugs, refactoring, writing tests, code review, or any task that produces code output.
+  Code quality verification loop and response ending stamps.
+  Trigger this skill whenever Claude writes, modifies, or reviews code.
+  This includes: implementing features, fixing bugs, refactoring, writing tests, code review, or any task that produces code output.
   Also trigger when the user asks about build status, test results, or verification.
   Skip for: pure discussion, architecture planning (before code), or documentation-only tasks.
 ---

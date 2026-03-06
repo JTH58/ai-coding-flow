@@ -1,11 +1,11 @@
 ---
 name: response-protocol
 description: >
-  Thinking protocol, response priority rules, action authority matrix, efficiency standards,
-  and report structure compliance. This skill is ALWAYS active — it applies to every response.
-  Use this skill whenever Claude needs to decide: should I answer or act first? Should I ask
-  or just do it? How verbose should I be? This skill is the single source of truth for
-  response behavior. Never skip it.
+  Thinking protocol, response priority rules, action authority matrix, efficiency standards, and report structure compliance.
+  This skill is ALWAYS active — it applies to every response.
+  Use this skill whenever Claude needs to decide: should I answer or act first? Should I ask or just do it? How verbose should I be?
+  This skill is the single source of truth for response behavior.
+  Never skip it.
 ---
 
 # Response Protocol

@@ -1,13 +1,10 @@
 ---
 name: ddd-bdd-tdd
 description: >
-  Structured development methodology: Domain-Driven Design → Behavior-Driven Development
-  → Test-Driven Development. Trigger this skill when: building a new feature, designing
-  complex business logic, planning API or system architecture, refactoring with new behavior,
-  or creating a new domain/module. Also trigger when the user mentions "DDD", "BDD", "TDD",
-  "domain model", "bounded context", "Given-When-Then", "假如-當-那麼", or "scenarios".
-  Skip for: simple bug fixes, UI/style tweaks, config changes, one-off scripts, CRUD on
-  existing entities, or static content pages.
+  Structured development methodology: Domain-Driven Design → Behavior-Driven Development → Test-Driven Development.
+  Trigger this skill when: building a new feature, designing complex business logic, planning API or system architecture, refactoring with new behavior, or creating a new domain/module.
+  Also trigger when the user mentions "DDD", "BDD", "TDD", "domain model", "bounded context", "Given-When-Then", "假如-當-那麼", or "scenarios".
+  Skip for: simple bug fixes, UI/style tweaks, config changes, one-off scripts, CRUD on existing entities, or static content pages.
 ---
 
 # DDD → BDD → TDD Methodology

@@ -2,12 +2,9 @@
 name: tech-defaults
 description: >
   Default tech stack, language/framework preferences, and technology selection guidance.
-  Trigger this skill when: the user starts a new project without specifying a stack,
-  asks for technology recommendations, discusses deployment or infrastructure choices,
-  or when code generation needs a default language/framework. Also trigger when the user
-  mentions "tech stack", "技術選型", "what framework", or "which language". Skip for:
-  conversations that already have an established stack (defer to ai-brain's architecture
-  decisions), or non-technical discussions.
+  Trigger this skill when: the user starts a new project without specifying a stack, asks for technology recommendations, discusses deployment or infrastructure choices, or when code generation needs a default language/framework.
+  Also trigger when the user mentions "tech stack", "技術選型", "what framework", or "which language".
+  Skip for: conversations that already have an established stack (defer to ai-brain's architecture decisions), or non-technical discussions.
 ---
 
 # Tech Defaults

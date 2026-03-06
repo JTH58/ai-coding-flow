@@ -1,14 +1,10 @@
 ---
 name: prompt-engineer
 description: >
-  Diagnose and fix violations of system prompt rules or Skill instructions. Trigger this
-  skill when: the user reports that AI did not follow a rule, the user corrects AI behavior
-  that should have been governed by an existing Skill or system prompt, the user says
-  "你怎麼又...", "I told you to...", "你沒有遵守", "rule violation", "skill not working",
-  "觸發不準", "description 要改", or expresses frustration that AI ignored instructions.
-  Also trigger when the user wants to improve, debug, or optimize any SKILL.md file or
-  system prompt. Skip for: normal corrections unrelated to prompt/skill rules (e.g., factual
-  errors, typos in code).
+  Diagnose and fix violations of system prompt rules or Skill instructions.
+  Trigger this skill when: the user reports that AI did not follow a rule, the user corrects AI behavior that should have been governed by an existing Skill or system prompt, the user says "你怎麼又...", "I told you to...", "你沒有遵守", "rule violation", "skill not working", "觸發不準", "description 要改", or expresses frustration that AI ignored instructions.
+  Also trigger when the user wants to improve, debug, or optimize any SKILL.md file or system prompt.
+  Skip for: normal corrections unrelated to prompt/skill rules (e.g., factual errors, typos in code).
 ---
 
 # Prompt Engineer
