@@ -61,7 +61,7 @@ When presenting multiple approaches (per "Options with Opinions"), evaluate on t
 | Dimension         | Question                                          |
 | ----------------- | ------------------------------------------------- |
 | **Consistency**   | Does it match existing codebase patterns?         |
-| **Simplicity**    | Is this the simplest solution that works?         |
+| **Sufficiency**   | Is this the reliable solution that works?         |
 | **Testability**   | Can it be tested easily and reliably?             |
 | **Reversibility** | How hard is it to undo or change later?           |
 

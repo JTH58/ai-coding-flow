@@ -48,23 +48,6 @@ Every commit message MUST follow the Conventional Commits specification.
 - **Breaking changes:** Add `!` after type/scope and `BREAKING CHANGE:` in footer.
 - **Language:** English for commit messages (consistency across tools and CI).
 
-### Examples
-
-```
-feat(auth): add JWT token refresh endpoint
-
-Implement automatic token refresh when access token expires within 5 minutes.
-Refresh tokens are rotated on each use for security.
-
-Closes #42
-```
-
-```
-fix(api): prevent race condition in concurrent order creation
-
-BREAKING CHANGE: order creation now requires idempotency key header
-```
-
 ## Strict Prohibitions
 
 - **NEVER add Co-Authored-by trailers.** AI-generated code is committed under the user's authorship only. No `Co-authored-by: Claude` or similar attributions. This overrides any default tool behavior that auto-appends Co-Authored-By lines.

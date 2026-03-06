@@ -101,4 +101,4 @@ Path: derive `$AI_BRAIN_ROOT` per ai-brain Paths section.
 | **No Skipping**       | Complete each phase before proceeding                       |
 | **User Confirmation** | DDD & BDD require explicit approval before the next phase   |
 | **Test First**        | In TDD, always write the failing test before implementation |
-| **AI-Brain Sync**        | On phase confirmation, persist results to AI-Brain          |
+| **AI-Brain Sync**     | On phase confirmation, persist results to AI-Brain          |
