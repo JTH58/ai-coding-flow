@@ -77,7 +77,7 @@ Execute on the first message of every conversation. Skip only if user says "skip
 
 ### Hook path (Claude Code)
 
-If `=== AI BRAIN ===` marker is present in context, the SessionStart hook has injected a **Brain Map** — file paths, descriptions, and entry counts (~20 lines). No full file contents are in context yet.
+If `=== AI BRAIN ===` marker is present in context, the SessionStart hook has injected a **Brain Map** — file paths, descriptions, and entry counts (~20 lines). The Brain Map includes a `BRAIN_ROOT=<resolved path>` line — use this exact path for all file reads. No full file contents are in context yet.
 
 **Steps:**
 
@@ -86,13 +86,15 @@ If `=== AI BRAIN ===` marker is present in context, the SessionStart hook has in
    - `known_issues.md` is ALWAYS relevant for code/debug tasks.
    - Other files: match by task type (planning → `todo.md`, resuming → `journal.md`, etc.)
 2. **Check entry count** — Sum entries of all relevant files (from the Brain Map).
-   - **< 15 total entries →** Read the relevant files directly (cat / Read tool).
-   - **≥ 15 total entries →** Launch ONE Explore sub-agent to read and distill:
+   - **< 15 total entries →** Read the relevant files directly using the resolved path from the Brain Map (e.g., `Read("<BRAIN_ROOT>/project/file.md")`).
+   - **≥ 15 total entries →** Launch ONE Explore sub-agent to read and distill. **Pass the resolved BRAIN_ROOT path from the Brain Map — never let the sub-agent derive or guess paths:**
      ```
      Explore agent prompt template:
-     "Read these Brain files: [list paths]. For the user's task: '[first message summary]',
+     "Read these Brain files: [list FULL resolved paths from Brain Map].
+     For the user's task: '[first message summary]',
      extract ONLY the entries relevant to this task. Return a concise summary organized by file.
-     Skip entries that are clearly unrelated."
+     Skip entries that are clearly unrelated.
+     IMPORTANT: Use ONLY the file paths provided above. Do NOT guess or derive Brain paths."
      ```
 3. **Respond to user** — The PreToolUse lock forces a text response before any tool use. Answer the user's question or acknowledge their task.
 

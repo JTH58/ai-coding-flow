@@ -50,7 +50,9 @@ count_entries() {
 
 echo "=== AI BRAIN: $PROJECT_NAME ==="
 echo ""
-echo "## Project Brain (\$BRAIN_ROOT/$PROJECT_NAME/)"
+echo "BRAIN_ROOT=$BRAIN_ROOT"
+echo ""
+echo "## Project Brain ($BRAIN_ROOT/$PROJECT_NAME/)"
 echo ""
 
 TOTAL_ENTRIES=0
@@ -63,7 +65,7 @@ for f in architecture_decisions.md known_issues.md todo.md journal.md; do
 done
 
 echo ""
-echo "## Common Brain (\$BRAIN_ROOT/_common/)"
+echo "## Common Brain ($BRAIN_ROOT/_common/)"
 echo ""
 
 for f in "$BRAIN_ROOT/_common/"*.md; do
