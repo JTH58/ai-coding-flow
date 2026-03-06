@@ -3,7 +3,7 @@
 ## 2025-02-05
 - Fixed Prisma connection pool issue (see known_issues.md BUG-002)
 - Decided to use singleton pattern — this seems to be a common Next.js + Prisma gotcha
-- Need to write a troubleshooting entry in Common Brain for this
+- Need to write a troubleshooting entry in Common AI-Brain for this
 
 ## 2025-02-01
 - Encountered SSR hydration mismatch on dashboard

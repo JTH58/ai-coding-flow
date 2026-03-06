@@ -30,7 +30,7 @@ When the user reports a rule violation, immediately capture:
 - **Conversation context:** <brief description of what triggered the violation>
 ```
 
-Store violation records in the Common Brain. Path: see ai-brain Paths section. File: `$BRAIN_ROOT/_common/prompt-violations.md`.
+Store violation records in the Common Brain. Path: see ai-brain Paths section. File: `$AI_BRAIN_ROOT/_common/prompt-violations.md`.
 
 If the file does not exist, create it with header:
 

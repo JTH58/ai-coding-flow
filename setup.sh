@@ -179,7 +179,7 @@ setup_codex() {
   generate_bundled_prompt "$CODEX_DIR/AGENTS.md"
 
   echo ""
-  echo "  Note: Codex has no lifecycle hooks. Brain loading uses"
+  echo "  Note: Codex has no lifecycle hooks. AI-Brain loading uses"
   echo "  the ai-brain Skill's manual path (prompt-level instructions)."
 }
 

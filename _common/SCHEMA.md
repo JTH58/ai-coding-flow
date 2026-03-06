@@ -1,5 +1,5 @@
-# Common Brain Schema Reference
-> Read this file when initializing or writing to Common Brain.
+# Common AI-Brain Schema Reference
+> Read this file when initializing or writing to Common AI-Brain.
 
 ---
 

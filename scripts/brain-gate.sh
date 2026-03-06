@@ -8,7 +8,7 @@ LOCK="/tmp/ai-brain-lock-${PROJECT_NAME}"
 
 if [[ -f "$LOCK" ]]; then
   rm "$LOCK"
-  echo "BLOCKED: Brain is loaded but you have not responded to the user yet."
+  echo "BLOCKED: AI-Brain is loaded but you have not responded to the user yet."
   echo "Output your text response FIRST, then use tools."
   echo "$(date '+%Y-%m-%d %H:%M:%S') brain-gate: BLOCKED $PROJECT_NAME" >> "/tmp/claude-brain-debug.log"
   exit 2

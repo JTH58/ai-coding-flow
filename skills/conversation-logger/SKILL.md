@@ -33,13 +33,13 @@ Scan the conversation for these four pattern types:
 - One-off factual Q&A with no pattern value
 - Pure concept explanations the user asked about once
 - Temporary debugging steps that won't recur
-- Anything already recorded in AI Brain files
+- Anything already recorded in AI-Brain files
 
 ## Storage
 
 ### File Location
 
-Path: see ai-brain Paths section. File: `$BRAIN_ROOT/_common/conversation-patterns.md`.
+Path: see ai-brain Paths section. File: `$AI_BRAIN_ROOT/_common/conversation-patterns.md`.
 
 If the file does not exist, create it with this header:
 
@@ -96,6 +96,6 @@ This ensures the pattern is not lost and can be picked up by `skill-extractor` i
 - If no patterns are detected, do not write anything — skip silently.
 - Do not duplicate entries that are already in the log file. Check before appending.
 
-## Integration with AI Brain
+## Integration with AI-Brain
 
-`conversation-patterns.md` is a Skill-owned file (see ai-brain Brain Structure). It does NOT need a `_catalog.json` entry — it is consumed by `skill-extractor`, not by the Brain loading procedure.
+`conversation-patterns.md` is a Skill-owned file (see ai-brain AI-Brain Structure). It does NOT need a `_catalog.json` entry — it is consumed by `skill-extractor`, not by the AI-Brain loading procedure.

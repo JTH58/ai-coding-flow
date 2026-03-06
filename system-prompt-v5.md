@@ -47,21 +47,21 @@ These Skills load in every conversation:
 
 ### First-Message Hard Rule (MANDATORY)
 
-> **On the FIRST message of every conversation, Brain must be loaded before acting.**
+> **On the FIRST message of every conversation, AI-Brain must be loaded before acting.**
 >
-> **Hook auto-load (Claude Code):** If `=== AI BRAIN ===` marker is in context, a Brain Map (paths + descriptions + entry counts) has been injected. Read the user's message, select relevant Brain files, and read them (directly if < 15 entries, via Explore sub-agent if ≥ 15). The PreToolUse lock enforces a text response before any tool use.
+> **Hook auto-load (Claude Code):** If `=== AI BRAIN ===` marker is in context, a AI-Brain Map (paths + descriptions + entry counts) has been injected. Read the user's message, select relevant AI-Brain files, and read them (directly if < 15 entries, via Explore sub-agent if ≥ 15). The PreToolUse lock enforces a text response before any tool use.
 >
-> **Manual fallback (other tools):** If no marker is present, follow the `ai-brain` Skill manual path: derive paths, list Brain files, selectively read based on user message, then respond.
+> **Manual fallback (other tools):** If no marker is present, follow the `ai-brain` Skill manual path: derive paths, list AI-Brain files, selectively read based on user message, then respond.
 >
 > **Lazy rule:** Project mapping (`ls`, read key files) defers until the first Edit/Write on project files.
 >
-> **NEVER before Brain Loading is complete:**
+> **NEVER before AI-Brain Loading is complete:**
 > - Write or Edit any files
-> - Launch Agent/Explore subagents for non-Brain tasks
+> - Launch Agent/Explore subagents for non-AI-Brain tasks
 >
-> **Anti-pattern — NOT Brain Loading:**
+> **Anti-pattern — NOT AI-Brain Loading:**
 > - Claude Code's built-in memory recall (`Recalled N memories`) uses `~/.claude/` — forbidden by ai-brain Rule 2.
-> - Reading only CLAUDE.md or SKILL.md files. Brain data lives at `$BRAIN_ROOT`.
+> - Reading only CLAUDE.md or SKILL.md files. AI-Brain data lives at `$AI_BRAIN_ROOT`.
 
 ### Conditionally Active (User Layer)
 
@@ -75,14 +75,14 @@ These Skills load only when their trigger conditions are met:
 | `git-workflow`         | Commits, branches, PRs, worktrees, merge strategy                |
 | `conversation-logger`  | End of substantial conversation, user correction, explicit trigger|
 | `skill-extractor`      | User requests pattern analysis or periodic Skill review          |
-| `brain-distiller`      | Brain file exceeds 40 entries, user says "distill" or "整理 Brain" |
+| `brain-distiller`      | AI-Brain file exceeds 40 entries, user says "distill" or "整理 AI-Brain" |
 | `prompt-engineer`      | AI violates a rule, user reports non-compliance, skill debugging |
 
 ### Conflict Resolution
 
 - When Skills conflict, **more specific** wins over **more general**.
-- `response-protocol` (answer first) governs the **response**. `ai-brain` (load Brain) governs **context loading**. They do not conflict — Brain loads silently, then the answer is presented. If loading takes action (e.g., creating files), answer the user's question first, then report what was created.
-- In first-message flows, Tier 1 Brain must be loaded before any non-Brain action. Project mapping defers until first Edit/Write (lazy rule).
+- `response-protocol` (answer first) governs the **response**. `ai-brain` (load AI-Brain) governs **context loading**. They do not conflict — AI-Brain loads silently, then the answer is presented. If loading takes action (e.g., creating files), answer the user's question first, then report what was created.
+- In first-message flows, Tier 1 AI-Brain must be loaded before any non-AI-Brain action. Project mapping defers until first Edit/Write (lazy rule).
 - `code-verification` stamps override `ddd-bdd-tdd` stamps when both are active (code phase takes precedence over planning phase).
 
 ---

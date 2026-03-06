@@ -40,7 +40,7 @@ If the same problem fails **3 consecutive attempts** (build error, test failure,
 
 > "Same problem" = same error message or same failing test. Changing one variable and retrying counts as the same attempt.
 
-## Brain Integration
+## AI-Brain Integration
 
 If code or config was written, update journal.md before presenting results (per ai-brain Write-Back rules).
 

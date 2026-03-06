@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # brain-loader.sh — SessionStart hook for Claude Code
-# Outputs a Brain Map (~20 lines) into context instead of full file contents.
+# Outputs a AI-Brain Map (~20 lines) into context instead of full file contents.
 # AI sees "=== AI BRAIN ===" marker and selectively reads files based on user message.
 
 set -euo pipefail
 
 PROJECT_NAME=$(basename "$PWD")
-BRAIN_ROOT="$(dirname "$PWD")/ai-brain"
+AI_BRAIN_ROOT="$(dirname "$PWD")/ai-brain"
 
-# No Brain repo → silent exit
-[[ -d "$BRAIN_ROOT" ]] || exit 0
+# No AI-Brain repo → silent exit
+[[ -d "$AI_BRAIN_ROOT" ]] || exit 0
 
-# No project Brain → silent exit (new project, not yet initialized)
-[[ -d "$BRAIN_ROOT/$PROJECT_NAME" ]] || exit 0
+# No project AI-Brain → silent exit (new project, not yet initialized)
+[[ -d "$AI_BRAIN_ROOT/$PROJECT_NAME" ]] || exit 0
 
 # --- Descriptions (bash 3.2 compatible — no declare -A) ---
 
@@ -46,29 +46,29 @@ count_entries() {
   echo "${n:-0}"
 }
 
-# --- Brain Map output ---
+# --- AI-Brain Map output ---
 
 echo "=== AI BRAIN: $PROJECT_NAME ==="
 echo ""
-echo "BRAIN_ROOT=$BRAIN_ROOT"
+echo "AI_BRAIN_ROOT=$AI_BRAIN_ROOT"
 echo ""
-echo "## Project Brain ($BRAIN_ROOT/$PROJECT_NAME/)"
+echo "## Project AI-Brain ($AI_BRAIN_ROOT/$PROJECT_NAME/)"
 echo ""
 
 TOTAL_ENTRIES=0
 for f in architecture_decisions.md known_issues.md todo.md journal.md; do
-  if [[ -f "$BRAIN_ROOT/$PROJECT_NAME/$f" ]]; then
-    n=$(count_entries "$BRAIN_ROOT/$PROJECT_NAME/$f")
+  if [[ -f "$AI_BRAIN_ROOT/$PROJECT_NAME/$f" ]]; then
+    n=$(count_entries "$AI_BRAIN_ROOT/$PROJECT_NAME/$f")
     TOTAL_ENTRIES=$((TOTAL_ENTRIES + n))
     echo "- $f ($n entries) — $(pdesc "$f")"
   fi
 done
 
 echo ""
-echo "## Common Brain ($BRAIN_ROOT/_common/)"
+echo "## Common AI-Brain ($AI_BRAIN_ROOT/_common/)"
 echo ""
 
-for f in "$BRAIN_ROOT/_common/"*.md; do
+for f in "$AI_BRAIN_ROOT/_common/"*.md; do
   [[ -f "$f" ]] || continue
   name=$(basename "$f")
   case "$name" in SCHEMA.md) continue ;; esac
@@ -84,15 +84,15 @@ done
 echo ""
 HEALTH_WARNINGS=0
 for f in architecture_decisions.md known_issues.md todo.md journal.md; do
-  if [[ -f "$BRAIN_ROOT/$PROJECT_NAME/$f" ]]; then
-    n=$(count_entries "$BRAIN_ROOT/$PROJECT_NAME/$f")
+  if [[ -f "$AI_BRAIN_ROOT/$PROJECT_NAME/$f" ]]; then
+    n=$(count_entries "$AI_BRAIN_ROOT/$PROJECT_NAME/$f")
     if [[ $n -gt 40 ]]; then
       echo "⚠️ $f has $n entries — consider running /distill"
       HEALTH_WARNINGS=$((HEALTH_WARNINGS + 1))
     fi
   fi
 done
-for f in "$BRAIN_ROOT/_common/"*.md; do
+for f in "$AI_BRAIN_ROOT/_common/"*.md; do
   [[ -f "$f" ]] || continue
   name=$(basename "$f")
   case "$name" in SCHEMA.md) continue ;; esac
@@ -110,7 +110,7 @@ echo ""
 echo "## Instructions"
 echo ""
 echo "Total entries: $TOTAL_ENTRIES"
-echo "1. Read user message → decide which Brain files are relevant"
+echo "1. Read user message → decide which AI-Brain files are relevant"
 echo "2. If total relevant entries < 15 → cat the files directly"
 echo "3. If total relevant entries >= 15 → use ONE Explore sub-agent to read and summarize"
 echo "4. architecture_decisions.md is ALWAYS relevant for code/design tasks"

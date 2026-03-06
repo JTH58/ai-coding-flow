@@ -18,7 +18,7 @@ Read the accumulated conversation pattern log, identify recurring themes that wo
 
 ## Input
 
-Path: see ai-brain Paths section. File: `$BRAIN_ROOT/_common/conversation-patterns.md`.
+Path: see ai-brain Paths section. File: `$AI_BRAIN_ROOT/_common/conversation-patterns.md`.
 
 If this file does not exist or is empty, inform the user: "No patterns accumulated yet. The conversation-logger skill needs to run across several conversations first. I recommend waiting until 15+ entries are logged."
 

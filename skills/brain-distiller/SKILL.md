@@ -1,34 +1,34 @@
 ---
 name: brain-distiller
 description: >
-  Distill bloated Brain files by clustering, merging, and archiving stale entries.
-  Trigger when: user says "distill", "蒸餾", "整理 Brain", "clean up brain",
-  "/distill", or when the Brain Map health check shows ⚠️ warnings (> 40 entries).
-  Also suggest proactively when a Brain file exceeds 40 entries during normal work.
-  Skip for: routine Brain read/write, small files, general conversation.
+  Distill bloated AI-Brain files by clustering, merging, and archiving stale entries.
+  Trigger when: user says "distill", "蒸餾", "整理 AI-Brain", "clean up brain",
+  "/distill", or when the AI-Brain Map health check shows ⚠️ warnings (> 40 entries).
+  Also suggest proactively when a AI-Brain file exceeds 40 entries during normal work.
+  Skip for: routine AI-Brain read/write, small files, general conversation.
 ---
 
-# Brain Distiller
+# AI-Brain Distiller
 
 ## Purpose
 
-Reduce Brain file bloat while preserving essential knowledge. Keeps Brain files concise so that Brain Map loading stays efficient (~20 lines) and selective reading stays fast.
+Reduce AI-Brain file bloat while preserving essential knowledge. Keeps AI-Brain files concise so that AI-Brain Map loading stays efficient (~20 lines) and selective reading stays fast.
 
 ## When to Trigger
 
 | Trigger | Action |
 |---------|--------|
-| User explicitly requests (`/distill`, "整理 Brain", etc.) | Run full distillation flow |
-| Brain Map health ⚠️ warning (> 40 entries) | Suggest: "⚠️ [file] has N entries. Run `/distill` to clean up?" |
+| User explicitly requests (`/distill`, "整理 AI-Brain", etc.) | Run full distillation flow |
+| AI-Brain Map health ⚠️ warning (> 40 entries) | Suggest: "⚠️ [file] has N entries. Run `/distill` to clean up?" |
 | During normal work, a file crosses 40 entries | Same suggestion as above |
 
-**NEVER** auto-execute distillation. Always require user confirmation before modifying Brain files.
+**NEVER** auto-execute distillation. Always require user confirmation before modifying AI-Brain files.
 
 ## Distillation Flow (5 Steps)
 
 ### Step 1 — Read
 
-Read the target Brain file(s) fully. Identify:
+Read the target AI-Brain file(s) fully. Identify:
 - Total entry count
 - Date range (oldest → newest)
 - Category clusters (by topic, status, or time period)
@@ -62,13 +62,13 @@ Before modifying any file:
 
 ```bash
 # Create archive directory
-mkdir -p "$BRAIN_ROOT/$PROJECT_NAME/_archive"
-# or for Common Brain:
-mkdir -p "$BRAIN_ROOT/_common/_archive"
+mkdir -p "$AI_BRAIN_ROOT/$PROJECT_NAME/_archive"
+# or for Common AI-Brain:
+mkdir -p "$AI_BRAIN_ROOT/_common/_archive"
 
 # Backup with timestamp
-cp "$BRAIN_ROOT/$PROJECT_NAME/<file>.md" \
-   "$BRAIN_ROOT/$PROJECT_NAME/_archive/<file>_$(date +%Y%m%d).md"
+cp "$AI_BRAIN_ROOT/$PROJECT_NAME/<file>.md" \
+   "$AI_BRAIN_ROOT/$PROJECT_NAME/_archive/<file>_$(date +%Y%m%d).md"
 ```
 
 - Archives are **read-only backups** — never modified after creation.
@@ -104,9 +104,9 @@ Apply these changes? (yes/no)
 
 When user runs `/distill` without specifying a file:
 
-1. Check all Brain files (project + common) for entry counts
+1. Check all AI-Brain files (project + common) for entry counts
 2. List files that exceed 40 entries
-3. If none exceed 40: "All Brain files are healthy (< 40 entries each). No distillation needed."
+3. If none exceed 40: "All AI-Brain files are healthy (< 40 entries each). No distillation needed."
 4. If multiple exceed 40: present the list, ask user which to distill (or "all")
 
 ## Rules
@@ -116,4 +116,4 @@ When user runs `/distill` without specifying a file:
 3. **Never delete ADRs** — Architecture decisions are historical records. Superseded ADRs get an `[ARCHIVED]` prefix but stay in the file. Only move to `_archive/` if explicitly requested.
 4. **Preserve active items** — Never merge, summarize, or archive entries that are still active/unresolved.
 5. **One file at a time** — Process and confirm each file individually, even when distilling "all".
-6. **Brain paths only** — Only operates on files under `$BRAIN_ROOT`. Never touch project files.
+6. **AI-Brain paths only** — Only operates on files under `$AI_BRAIN_ROOT`. Never touch project files.

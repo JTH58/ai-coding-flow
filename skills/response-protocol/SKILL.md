@@ -14,7 +14,7 @@ description: >
 
 Before every response, verify in your thinking block:
 
-0. **Brain** — First message? → Brain Loading Procedure first. No other actions until complete (per CLAUDE.md First-Message Hard Rule).
+0. **AI-Brain** — First message? → AI-Brain Loading Procedure first. No other actions until complete (per CLAUDE.md First-Message Hard Rule).
 1. **Response Priority** — Is the user asking a question? → Answer it FIRST before any action.
 2. **Context** — Do I have enough information? If not, ask (max 1 question).
 3. **Methodology** — Does this trigger the `ddd-bdd-tdd` skill? Check activation criteria.

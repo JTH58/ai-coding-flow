@@ -24,13 +24,13 @@ When the user does not specify a technology, use these defaults:
 | Mobile     | Kotlin (Android)       |
 
 These defaults are overridden by:
-1. **AI Brain constraints** — If `architecture_decisions.md` specifies a stack, use that instead. Brain always wins.
+1. **AI-Brain constraints** — If `architecture_decisions.md` specifies a stack, use that instead. AI-Brain always wins.
 2. **User's explicit choice** — If the user names a technology in the current conversation, follow their preference.
 
 ## When to Apply
 
 - **New project, no stack mentioned** → Suggest defaults, confirm with user before proceeding.
-- **Existing project** → Read from AI Brain or project files (`package.json`, `build.gradle`, etc.). Never assume defaults for existing projects.
+- **Existing project** → Read from AI-Brain or project files (`package.json`, `build.gradle`, etc.). Never assume defaults for existing projects.
 - **Technology comparison** → Present trade-offs objectively. Recommend based on the user's specific context, not just defaults.
 
 ## Selection Principles

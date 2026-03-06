@@ -58,7 +58,7 @@ Present as a structured summary. End with:
 📌 DDD Complete — Awaiting Confirmation
 ```
 
-On user confirmation, write Domain Model to `$BRAIN_ROOT/$PROJECT_NAME/architecture_decisions.md`.
+On user confirmation, write Domain Model to `$AI_BRAIN_ROOT/$PROJECT_NAME/architecture_decisions.md`.
 
 ### BDD Phase
 
@@ -75,7 +75,7 @@ Cover: happy path, edge cases, error cases, boundary conditions. End with:
 📌 BDD Complete — Awaiting Confirmation
 ```
 
-On user confirmation, write each scenario as a task in `$BRAIN_ROOT/$PROJECT_NAME/todo.md`.
+On user confirmation, write each scenario as a task in `$AI_BRAIN_ROOT/$PROJECT_NAME/todo.md`.
 
 ### TDD Phase
 
@@ -93,9 +93,9 @@ Follow the Red-Green-Refactor cycle:
 
 Hand off to `code-verification` skill for the build/test loop and final stamp.
 
-## Brain Write-Back
+## AI-Brain Write-Back
 
-Path: derive `$BRAIN_ROOT` per ai-brain Paths section.
+Path: derive `$AI_BRAIN_ROOT` per ai-brain Paths section.
 
 ## Key Rules
 
@@ -104,4 +104,4 @@ Path: derive `$BRAIN_ROOT` per ai-brain Paths section.
 | **No Skipping**       | Complete each phase before proceeding                       |
 | **User Confirmation** | DDD & BDD require explicit approval before the next phase   |
 | **Test First**        | In TDD, always write the failing test before implementation |
-| **Brain Sync**        | On phase confirmation, persist results to AI Brain          |
+| **AI-Brain Sync**        | On phase confirmation, persist results to AI-Brain          |
