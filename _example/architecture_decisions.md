@@ -1,39 +1,28 @@
 # Architecture Decision Log
 
+<!-- ⚠️ TEMPLATE — replace all placeholder content below with actual project data -->
+
 ## Hard Constraints
-* **Language:** TypeScript (strict mode)
-* **Framework:** Next.js 15 (App Router)
-* **State Management:** Zustand
-* **Naming Convention:** camelCase for variables, PascalCase for components
-* **Directory Structure:** Feature-based (`src/features/<name>/`)
+* **Language:** <your language>
+* **Framework:** <your framework>
+* **Naming Convention:** <your convention>
+* **Directory Structure:** <your structure>
 
 ## Domain Model
-> Updated when DDD methodology is used.
 
 ### Ubiquitous Language
 | Term | Definition | Context |
 |------|------------|---------|
-| Workspace | A user's isolated project environment | Core domain |
-| Blueprint | A reusable project template | Template system |
-| Snapshot | A point-in-time backup of workspace state | Backup system |
+| Example Term | Example definition | Example context |
 
 ### Bounded Contexts
-* Auth Context — User registration, login, session management
-* Workspace Context — CRUD and collaboration on workspaces
-* Template Context — Blueprint management and instantiation
+* Example Context — Example responsibility
 
 ### Core Entities
-* User (Aggregate Root) — email, displayName, role
-* Workspace (Aggregate Root) — name, ownerId, members[], status
-* Blueprint (Aggregate Root) — name, schema, version
+* ExampleEntity (Aggregate Root) — field1, field2
 
 ## Decision History
-### [ADR-001] 2025-01-15 Use Next.js App Router over Pages Router
-* **Context:** Starting new project, need SSR + API routes
-* **Decision:** App Router for better layouts, server components, and streaming
-* **Consequences:** Team needs to learn RSC patterns; some libraries not yet compatible
-
-### [ADR-002] 2025-01-20 Choose Zustand over Redux
-* **Context:** Need lightweight state management for client-side state
-* **Decision:** Zustand for simplicity and minimal boilerplate
-* **Consequences:** Less ecosystem tooling than Redux, but faster development velocity
+### [ADR-001] YYYY-MM-DD Example decision title
+* **Context:** Why this decision was needed
+* **Decision:** What was decided
+* **Consequences:** Trade-offs and impact

@@ -11,8 +11,19 @@ AI_BRAIN_ROOT="$(dirname "$PWD")/ai-brain"
 # No AI-Brain repo → silent exit
 [[ -d "$AI_BRAIN_ROOT" ]] || exit 0
 
-# No project AI-Brain → silent exit (new project, not yet initialized)
-[[ -d "$AI_BRAIN_ROOT/$PROJECT_NAME" ]] || exit 0
+# No project AI-Brain → create from template
+if [[ ! -d "$AI_BRAIN_ROOT/$PROJECT_NAME" ]]; then
+  if [[ -d "$AI_BRAIN_ROOT/_example" ]]; then
+    cp -r "$AI_BRAIN_ROOT/_example" "$AI_BRAIN_ROOT/$PROJECT_NAME"
+  else
+    echo "=== AI BRAIN: $PROJECT_NAME ==="
+    echo ""
+    echo "⚠️ No project AI-Brain and no _example/ template found at $AI_BRAIN_ROOT"
+    echo "=== END AI BRAIN ==="
+    touch "/tmp/ai-brain-lock-${PROJECT_NAME}"
+    exit 0
+  fi
+fi
 
 # --- Descriptions (bash 3.2 compatible — no declare -A) ---
 
@@ -113,7 +124,7 @@ echo "Total entries: $TOTAL_ENTRIES"
 echo "1. Read user message → decide which AI-Brain files are relevant"
 echo "2. If total relevant entries < 15 → cat the files directly"
 echo "3. If total relevant entries >= 15 → use ONE Explore sub-agent to read and summarize"
-echo "4. architecture_decisions.md is ALWAYS relevant for code/design tasks"
+echo "4. architecture_decisions.md is ALWAYS relevant — read it first to understand what this project is."
 echo "5. Respond to user FIRST, then use tools for their task"
 echo ""
 echo "=== END AI BRAIN ==="
