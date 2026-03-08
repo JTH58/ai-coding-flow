@@ -121,6 +121,19 @@ generate_bundled_prompt() {
   CHANGED=$((CHANGED + 1))
 }
 
+install_codex_agents() {
+  local output="$1"
+  mkdir -p "$(dirname "$output")"
+
+  if [[ -f "$output" ]] && cmp -s "$PROJECT_DIR/AGENTS.md" "$output"; then
+    return
+  fi
+
+  cp "$PROJECT_DIR/AGENTS.md" "$output"
+  echo "  + $(basename "$output") (Codex prompt)"
+  CHANGED=$((CHANGED + 1))
+}
+
 # ── Tool setup functions ─────────────────────────────────────────────
 
 setup_claude() {
@@ -206,12 +219,12 @@ setup_codex() {
   echo "OpenAI Codex"
   echo "─────────────────────────────"
 
-  # Bundled prompt
-  generate_bundled_prompt "$CODEX_DIR/AGENTS.md"
+  # Codex-specific prompt
+  install_codex_agents "$CODEX_DIR/AGENTS.md"
 
   echo ""
-  echo "  Note: Codex has no lifecycle hooks. AI-Brain loading uses"
-  echo "  the ai-brain Skill's manual path (prompt-level instructions)."
+  echo "  Note: Codex uses the repo's Codex-specific AGENTS.md."
+  echo "  Hook-based Claude features are replaced with manual instructions."
 }
 
 # ── Menu ─────────────────────────────────────────────────────────────
