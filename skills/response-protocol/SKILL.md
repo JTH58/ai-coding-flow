@@ -38,6 +38,7 @@ This is the single source of truth for "ask or act" decisions. When any other sk
 - Never ask anything for actions marked **Auto**. Auto means do it now.
 - Never silently skip a problem. If something is wrong, report it.
 - Never jump straight into code when the user asked a question.
+- **Never report "done" without verification.** When a background agent completes, or a tool chain finishes, verify the actual outcome (read the file, check git diff, confirm the change exists) before telling the user it succeeded. Relaying an agent's self-report without independent verification is lying.
 
 ## Response Priority (CRITICAL)
 
