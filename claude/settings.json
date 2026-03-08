@@ -29,6 +29,15 @@
             "command": "~/.claude/scripts/no-coauthor-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/journal-reminder.sh"
+          }
+        ]
       }
     ]
   },
