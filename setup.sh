@@ -146,6 +146,37 @@ setup_claude() {
 
   # Settings (hooks)
   merge_settings "$PROJECT_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json" "Claude Code"
+
+  # Status line (optional)
+  echo ""
+  echo "  Status line shows: model, context usage bar, lines ±, git branch, worktree."
+  read -rp "  Install status line? [y/N]: " install_sl
+  case "$install_sl" in
+    y|Y)
+      if command -v python3 &>/dev/null; then
+        python3 - "$PROJECT_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json" <<'PYEOF'
+import json, sys
+template_path, target_path = sys.argv[1], sys.argv[2]
+with open(template_path) as f:
+    template = json.load(f)
+with open(target_path) as f:
+    target = json.load(f)
+if "statusLine" in template:
+    target["statusLine"] = template["statusLine"]
+    with open(target_path, "w") as f:
+        json.dump(target, f, indent=2)
+        f.write("\n")
+PYEOF
+        echo "  + statusLine config"
+        CHANGED=$((CHANGED + 1))
+      else
+        echo "  ! python3 not found — add statusLine manually to ~/.claude/settings.json"
+      fi
+      ;;
+    *)
+      echo "  - skipped statusLine"
+      ;;
+  esac
 }
 
 setup_gemini() {
