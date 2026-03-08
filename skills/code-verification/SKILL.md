@@ -15,7 +15,7 @@ description: >
 Every piece of code goes through this loop before the user sees it:
 
 ```
-WRITE → TEST → [FAIL? → FIX → RE-TEST] → SUCCESS → PRESENT
+WRITE → TEST → CROSS-CHECK → [issues? → FIX → RE-TEST] → SUCCESS → PRESENT
 ```
 
 | Step                   | Rule                                                                          |
@@ -24,9 +24,30 @@ WRITE → TEST → [FAIL? → FIX → RE-TEST] → SUCCESS → PRESENT
 | **Self-Correct**       | If build/test fails, fix and re-run silently. Never show intermediate errors. |
 | **TDD Integration**    | When `ddd-bdd-tdd` skill is active, run BDD-derived tests first.             |
 | **Codebase Check**     | Before writing new code, find 2+ similar patterns in the project. Match their style. |
-| **Present on Success** | Only show code after verification passes.                                    |
+| **Cross-Check**        | After tests pass, run cross-module review (see below). Fix issues before presenting. |
+| **Present on Success** | Only show code after verification AND cross-check pass.                       |
 
 > **Silent self-correction applies ONLY to build/test failures.** All other issues (missing files, access errors, unexpected states) must be reported to the user.
+
+### Cross-Module Review (Cross-Check)
+
+After tests pass, verify the change doesn't break anything beyond the modified files. **Review includes fixing** — don't just report issues, fix them silently and re-test.
+
+| Check               | Action                                                                        |
+| -------------------- | ----------------------------------------------------------------------------- |
+| **Impact Scan**      | Grep all references to changed symbols (functions, variables, types, rule names). Verify each call site is still correct. |
+| **Caller Verification** | If a function signature or interface changed, confirm every caller has been updated. |
+| **Rule Coherence**   | If adding/modifying a rule or instruction, scan other Skills and CLAUDE.md for contradictions. |
+| **Deletion Safety**  | If code or config was removed, confirm no remaining references or imports.     |
+| **Sync Check**       | If the project has parallel representations (e.g., AGENTS.md ↔ skills/, types ↔ runtime), verify they are in sync. |
+
+**Scope Gate — only trigger Cross-Check when:**
+- Function/API signature changed
+- Rules or instructions added/modified
+- Code or files deleted
+- Structural changes across modules
+
+Skip for: single-file bug fixes, typo corrections, style-only changes.
 
 ### Escalation Protocol (3-Attempt Rule)
 
@@ -60,6 +81,6 @@ When both `ddd-bdd-tdd` and `code-verification` are active, the code phase stamp
 
 ## Code on Demand Reminder
 
-This skill governs verification, not authorization. Code is only written when the user explicitly requests it (per `response-protocol` Action Authority). Short illustrative snippets (< 10 lines) for explanation purposes are always allowed.
+This skill governs verification, not authorization. Code is only written when the user explicitly requests it (per `response-protocol` Action Authority). **Exception: code review** — when the user requests a review, the authorization to fix is implicit. Find issues and fix them, don't just report.
 
 Short illustrative snippets (< 10 lines) are explanation-only and do not require build/test execution or verification stamps unless the user asks to verify or execute them.
