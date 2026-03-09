@@ -26,6 +26,26 @@ link() {
   CHANGED=$((CHANGED + 1))
 }
 
+link_tree() {
+  local src_root="$1" dst_root="$2" label="$3"
+  local changed_before="$CHANGED"
+  local src_path rel_path dst_path
+
+  src_root="${src_root%/}"
+
+  mkdir -p "$dst_root"
+
+  while IFS= read -r src_path; do
+    rel_path="${src_path#"$src_root"/}"
+    dst_path="$dst_root/$rel_path"
+    link "$src_path" "$dst_path" "$label: $rel_path"
+  done < <(find "$src_root" -type f ! -name '.DS_Store' | sort)
+
+  if [[ $CHANGED -gt $changed_before ]]; then
+    echo "  + $label (skill bundle)"
+  fi
+}
+
 # Merge hooks from a template settings.json into a target settings.json.
 # Uses python3 (pre-installed on macOS 12.3+ and most Linux).
 # - If target doesn't exist -> cp template directly
@@ -148,8 +168,8 @@ setup_claude() {
     link "$skill_dir/SKILL.md" "$CLAUDE_DIR/skills/$name/SKILL.md" "$name"
   done
 
-  # System prompt
-  link "$PROJECT_DIR/system-prompt-v5.md" "$CLAUDE_DIR/CLAUDE.md" "CLAUDE.md"
+  # Claude prompt
+  link "$PROJECT_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md" "CLAUDE.md"
 
   # All scripts
   for script in "$PROJECT_DIR"/scripts/*.sh; do
@@ -222,8 +242,16 @@ setup_codex() {
   # Codex-specific prompt
   install_codex_agents "$CODEX_DIR/AGENTS.md"
 
+  # Skills
+  for skill_dir in "$PROJECT_DIR"/skills/*/; do
+    [[ -f "$skill_dir/SKILL.md" ]] || continue
+    name=$(basename "$skill_dir")
+    link_tree "$skill_dir" "$CODEX_DIR/skills/$name" "$name"
+  done
+
   echo ""
   echo "  Note: Codex uses the repo's Codex-specific AGENTS.md."
+  echo "  Skills are linked into ~/.codex/skills for reuse across projects."
   echo "  Hook-based Claude features are replaced with manual instructions."
 }
 
