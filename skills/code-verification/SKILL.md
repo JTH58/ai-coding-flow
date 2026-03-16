@@ -14,8 +14,8 @@ description: >
 
 Every piece of code goes through this loop before the user sees it:
 
-```
-WRITE → TEST → CROSS-CHECK → [issues? → FIX → RE-TEST] → SUCCESS → PRESENT
+``` 
+WRITE → TEST → CROSS-CHECK → REVIEW → [issues? → FIX → RE-TEST → REVIEW] → SUCCESS → PRESENT
 ```
 
 | Step                   | Rule                                                                          |
@@ -25,7 +25,8 @@ WRITE → TEST → CROSS-CHECK → [issues? → FIX → RE-TEST] → SUCCESS →
 | **TDD Integration**    | When `ddd-bdd-tdd` skill is active, run BDD-derived tests first.             |
 | **Codebase Check**     | Before writing new code, find 2+ similar patterns in the project. Match their style. |
 | **Cross-Check**        | After tests pass, run cross-module review (see below). Fix issues before presenting. |
-| **Present on Success** | Only show code after verification AND cross-check pass.                       |
+| **Review Gate**        | After cross-check passes, run a review pass for code/config changes. Present only after review is resolved. |
+| **Present on Success** | Only show code after verification, cross-check, AND review pass.              |
 
 > **Silent self-correction applies ONLY to build/test failures.** All other issues (missing files, access errors, unexpected states) must be reported to the user.
 
@@ -48,6 +49,32 @@ After tests pass, verify the change doesn't break anything beyond the modified f
 - Structural changes across modules
 
 Skip for: single-file bug fixes, typo corrections, style-only changes.
+
+### Async Review Sub-Agent
+
+After local verification passes, run a review pass for any task that **changed code or config files**.
+
+**Preferred mode — true async sub-agent**
+- If the runtime supports a background / asynchronous sub-agent, launch exactly one review sub-agent for the current diff.
+- Immediately tell the user: `Review sub-agent 已啟動，主程序等待審查結果。`
+- Then wait. Do **not** present the final completion message or verification stamp until the review result is back.
+- Scope the review to changed files, directly affected callers, regression risk, and missing tests.
+- Review goal: find bugs, behavioral regressions, unsafe assumptions, and test gaps. Ignore minor style nits.
+
+**Fallback mode — synchronous review**
+- If no true async/background sub-agent exists in the current tool, run the review synchronously.
+- Do **not** claim that a background review is running when it is not.
+- Use the same review scope and quality bar as the async mode.
+
+**When review finds issues**
+1. Fix the issues silently.
+2. Re-run the relevant tests/build.
+3. Re-run review if the fix materially changed behavior or touched new files.
+4. Present only after the review is clear or residual risk is explicitly called out.
+
+**When review finds no issues**
+- State that clearly in the final response.
+- Then append the normal verification stamp.
 
 ### Escalation Protocol (3-Attempt Rule)
 

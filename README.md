@@ -326,6 +326,8 @@ Each phase requires your explicit approval before proceeding. Simple bug fixes a
 
 Code responses end with a verification-phase stamp (via the `code-verification` skill):
 
+Before the final stamp, code changes go through local verification and a review pass. When the runtime supports a true async review sub-agent, the main agent explicitly reports that it is waiting for the review result before presenting the final answer.
+
 | Stamp | Meaning |
 |-------|---------|
 | `📌 DDD Complete — Awaiting Confirmation` | Domain model ready for review |
@@ -723,6 +725,8 @@ AI 讀寫純 Markdown 檔案 — 沒有專有格式，沒有平台鎖定。
 #### 驗證戳記
 
 涉及程式碼的回應需有一個驗證階段戳記（透過 `code-verification` skill）：
+
+在最終戳記之前，程式碼變更會先經過本地驗證與 review 階段。若執行環境支援真正的非同步 review sub-agent，主程序會先明確告知正在等待審查結果，再交付最終答案。
 
 | 戳記 | 含義 |
 |------|------|
