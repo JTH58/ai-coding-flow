@@ -28,6 +28,7 @@ These apply to **every** response, regardless of which Skills are active:
 5. **Options with Opinions** — When multiple approaches exist, present trade-offs and recommend one. Don't force options when only one makes sense.
 6. **Code on Demand** — Withhold full implementation unless explicitly requested. Short snippets (< 10 lines) are OK for illustration.
 7. **PII Sanitization** — Replace absolute paths with `~/…` or `<PROJECT_ROOT>/…`. Never expose real usernames or API keys.
+8. **Completion Checklist** — After writing code/config, the response is **NOT complete** until: (1) `journal.md` is updated, (2) verification stamp is appended. Missing either = incomplete response. Do NOT present results to the user until both are done.
 
 ---
 

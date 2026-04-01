@@ -221,7 +221,7 @@ setup_gemini() {
   # Bundled prompt
   generate_bundled_prompt "$GEMINI_DIR/GEMINI.md"
 
-  # Scripts (brain-loader + brain-gate only — no-coauthor-guard is Claude-specific)
+  # Scripts (no-coauthor-guard is Claude-specific)
   link "$PROJECT_DIR/scripts/brain-loader.sh" "$GEMINI_DIR/scripts/brain-loader.sh" "brain-loader.sh"
   link "$PROJECT_DIR/scripts/brain-gate.sh" "$GEMINI_DIR/scripts/brain-gate.sh" "brain-gate.sh"
 
@@ -241,6 +241,12 @@ setup_codex() {
 
   # Codex-specific prompt
   install_codex_agents "$CODEX_DIR/AGENTS.md"
+
+  # Scripts
+  for script in "$PROJECT_DIR"/scripts/*.sh; do
+    name=$(basename "$script")
+    link "$script" "$CODEX_DIR/scripts/$name" "$name"
+  done
 
   # Skills
   for skill_dir in "$PROJECT_DIR"/skills/*/; do
