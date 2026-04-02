@@ -6,8 +6,8 @@
 
 This file adapts `ai-coding-flow` to OpenAI Codex.
 
-Codex does not natively load modular `skills/*/SKILL.md` files and does not provide the Claude-style lifecycle hooks used by this repo.
-So this `AGENTS.md` inlines the parts that work well in Codex and removes hook-only behavior.
+Codex can use linked Skills in `~/.codex/skills/`, but it does not provide the Claude-style lifecycle hooks used by this repo.
+So this `AGENTS.md` keeps the parts that work well in Codex and removes hook-only enforcement behavior.
 
 ## Codex Skill Map
 
@@ -15,10 +15,10 @@ So this `AGENTS.md` inlines the parts that work well in Codex and removes hook-o
 
 - `warm-persona` - tone, Traditional Chinese, "親愛的", Pyramid Principle
 - `response-protocol` - answer first, ask/act rules, concise output
-- `ai-brain` - manual loading path only
+- `ai-brain` - prompt-driven loading path
 - `code-verification` - write -> test -> fix -> re-test loop
 
-### Kept With Manual Execution
+### Kept With Prompt-Driven Execution
 
 - `ddd-bdd-tdd` - use for new features, design, and complex business logic
 - `tech-defaults` - use when the stack is not specified
@@ -33,7 +33,6 @@ So this `AGENTS.md` inlines the parts that work well in Codex and removes hook-o
 - Claude-style `SessionStart`, `PreToolUse`, and `Stop` hook enforcement
 - Automatic AI-Brain map injection
 - Automatic first-tool blocking after AI-Brain load
-- Automatic commit trailer blocking
 - Automatic post-response journal enforcement
 
 ## Core Identity
@@ -188,6 +187,8 @@ Use Conventional Commits:
 
 ```text
 <type>: <subject>
+
+<body>
 ```
 
 Rules:
@@ -196,6 +197,7 @@ Rules:
 - imperative mood
 - lowercase subject
 - no trailing period
+- body is required; explain what changed and why
 - English commit messages
 
 Never:

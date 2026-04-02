@@ -13,3 +13,20 @@
 # OS
 Thumbs.db
 Desktop.ini
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.crt
+*.cer
+
+# Local state
+*.log
+*.db
+*.sqlite
+.ai-review/

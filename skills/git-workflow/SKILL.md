@@ -18,7 +18,7 @@ Every commit message MUST follow the Conventional Commits specification.
 ```
 <type>: <subject>
 
-[optional body]
+[required body]
 
 [optional footer(s)]
 ```
@@ -44,8 +44,9 @@ Every commit message MUST follow the Conventional Commits specification.
 ### Rules
 
 - **Subject:** Imperative mood, lowercase, no period at end, max 50 characters.
-- **Body:** Wrap at 72 characters. Explain *what* and *why*, not *how*.
-- **Breaking changes:** Add `!` after type/scope and `BREAKING CHANGE:` in footer.
+- **Body:** Required. Wrap at 72 characters. Explain *what* and *why*, not *how*.
+- **Minimum body content:** Include both the main change and the reason for it.
+- **Breaking changes:** Add `!` after type and `BREAKING CHANGE:` in footer.
 - **Language:** English for commit messages (consistency across tools and CI).
 
 ## Strict Prohibitions
@@ -119,7 +120,11 @@ git branch -d feat/agent-1-task
 
 ### Title Format
 
-Follow the same Conventional Commits format: `type(scope): description`
+Follow the same Conventional Commits format as commits: `type: subject`
+
+- Do **NOT** use scope in PR titles.
+- Keep the PR title short and searchable.
+- Put the detailed explanation in the PR description, not the title.
 
 ### PR Body Template
 
@@ -141,6 +146,7 @@ List any breaking changes, or "None".
 ### Rules
 
 - PR description is mandatory — never leave it empty.
+- PR description must clearly cover summary, key changes, testing, and any risks or follow-up work.
 - Link related issues with `Closes #N` or `Relates to #N`.
 - Keep PRs focused — one feature/fix per PR. Large PRs must be split.
 - Request review before merging to protected branches.

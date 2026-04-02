@@ -9,6 +9,34 @@ PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 CHANGED=0
 
+confirm_proceed() {
+  local selection="$1"
+  echo ""
+  echo "Warning"
+  echo "─────────────────────────────"
+  echo "  This installer writes to your home directory and may replace existing files or symlinks under:"
+  echo "    - ~/.claude/"
+  echo "    - ~/.gemini/"
+  echo "    - ~/.codex/"
+  echo ""
+  echo "  Behavior by tool:"
+  echo "    - Claude/Gemini: merge hook settings when possible"
+  echo "    - Codex: copy AGENTS.md and link scripts/skills"
+  echo "    - Existing target files or symlinks managed by this installer may be replaced"
+  echo ""
+  echo "  Optional prerequisites:"
+  echo "    - python3: required for automatic settings.json merge and statusLine install"
+  echo "    - jq: required only for scripts/statusline.sh"
+  echo ""
+  echo "  Selected target: $selection"
+  echo ""
+  read -rp "Continue? [y/N]: " proceed
+  case "$proceed" in
+    y|Y) ;;
+    *) echo "Aborted."; exit 0 ;;
+  esac
+}
+
 link() {
   local src="$1" dst="$2" label="$3"
   mkdir -p "$(dirname "$dst")"
@@ -257,8 +285,8 @@ setup_codex() {
 
   echo ""
   echo "  Note: Codex uses the repo's Codex-specific AGENTS.md."
-  echo "  Skills are linked into ~/.codex/skills for reuse across projects."
-  echo "  Hook-based Claude features are replaced with manual instructions."
+  echo "  Skills are linked into ~/.codex/skills so Codex can reuse and trigger them across projects."
+  echo "  Claude-specific hook enforcement is not available in Codex."
 }
 
 # ── Menu ─────────────────────────────────────────────────────────────
@@ -273,6 +301,15 @@ echo "  [a] All"
 echo "  [q] Quit"
 echo ""
 read -rp "Select tool(s) to set up: " choice
+
+case "$choice" in
+  1) confirm_proceed "Claude Code" ;;
+  2) confirm_proceed "Gemini CLI" ;;
+  3) confirm_proceed "OpenAI Codex" ;;
+  a|A) confirm_proceed "Claude Code + Gemini CLI + OpenAI Codex" ;;
+  q|Q) echo "Aborted."; exit 0 ;;
+  *) echo "Invalid choice: $choice"; exit 1 ;;
+esac
 
 case "$choice" in
   1) setup_claude ;;
